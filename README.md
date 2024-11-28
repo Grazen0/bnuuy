@@ -1,4 +1,4 @@
-# bnuuy
+# bnuuy ![Build](https://github.com/Grazen0/bnuuy/actions/workflows/build.yml/badge.svg)
 
 bnuuy.
 
