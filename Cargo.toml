@@ -1,0 +1,9 @@
+[package]
+name = "bnuuy"
+description = "bnuuy"
+authors = ["Grazen"]
+homepage = "https://github.com/Grazen0/bnuuy"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
