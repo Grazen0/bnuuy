@@ -1,30 +1,30 @@
-use std::{fs, io, path::Path};
+use std::{fs, path::PathBuf};
 
-fn bnuuyfy(dir: &Path, bnuuy: &[u8], bnuuys: &mut usize) -> io::Result<()> {
-    let result = fs::write(dir.join("bnuuy.png"), bnuuy);
+const BNUUY: &[u8] = include_bytes!("../bnuuy.png");
 
-    if result.is_ok() {
-        *bnuuys += 1;
-        println!("{} bnuuys", bnuuys);
-    }
+fn main() {
+    println!("bnuuy commence");
 
-    for entry in fs::read_dir(dir)? {
-        if let Ok(entry) = entry {
-            let path = entry.path();
-            if path.is_dir() {
-                let _ = bnuuyfy(&path, bnuuy, bnuuys);
+    let mut queue = vec![PathBuf::from(".")];
+    let mut bnuuy_count = 0;
+
+    while let Some(dir) = queue.pop() {
+        let result = fs::write(dir.join("bnuuy.png"), BNUUY);
+
+        if result.is_ok() {
+            bnuuy_count += 1;
+            println!("{} bnuuys", bnuuy_count);
+        }
+
+        if let Ok(items) = fs::read_dir(dir) {
+            for entry in items.flatten() {
+                let path = entry.path();
+                if path.is_dir() {
+                    queue.insert(0, path);
+                }
             }
         }
     }
 
-    Ok(())
-}
-
-fn main() {
-    let bnuuy = include_bytes!("../bnuuy.png");
-    let mut bnuuys = 0;
-
-    println!("bnuuy commence");
-    let _ = bnuuyfy(&Path::new("."), bnuuy, &mut bnuuys);
-    println!("bnuuy completion");
+    println!("bnuuy complete");
 }
